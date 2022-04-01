@@ -1,9 +1,9 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include <winapifamily.h>
 #include"resource.h"
 
-CHAR sz_login_invitation[] = "Введите логин";
-CHAR sz_password_invitation[] = "Введите пароль";
+CHAR sz_login_invitation[] = "Р’РІРµРґРёС‚Рµ Р»РѕРіРёРЅ";
+CHAR sz_password_invitation[] = "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ";
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM);
 
@@ -71,7 +71,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM)
 			
 		}
 		break;
-		case IDOK:MessageBox(NULL, "Была нажата кнопка ОК", "Info", MB_OK | MB_ICONINFORMATION); break;
+		case IDOK:MessageBox(NULL, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° РћРљ", "Info", MB_OK | MB_ICONINFORMATION); break;
 		case IDCANCEL: EndDialog(hwnd, 0); break;
 		}
 	}
