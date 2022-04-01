@@ -46,10 +46,11 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM)
 			switch (HIWORD(wParam))
 			{
 			case EN_SETFOCUS:
+				if(!strcmp(sz_buffer, sz_login_invitation))
 				SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"");
 				break;
 			case EN_KILLFOCUS:
-				if (strcmp(sz_buffer, "") == 0)
+				if (!strcmp(sz_buffer, ""))
 				SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)sz_login_invitation);
 				break;
 			}
