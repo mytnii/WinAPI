@@ -40,12 +40,16 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM)
 		{
 		case IDC_EDIT_LOGIN:
 		{
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};
+			SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			switch (HIWORD(wParam))
 			{
 			case EN_SETFOCUS:
 				SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"");
 				break;
 			case EN_KILLFOCUS:
+				if (strcmp(sz_buffer, "") == 0)
 				SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)sz_login_invitation);
 				break;
 			}
