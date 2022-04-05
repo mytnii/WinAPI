@@ -48,13 +48,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				SendMessage(hComboBox, CB_GETLBTEXT, index, (LPARAM)sz_message);
 				sprintf(sz_buffer, "Вы выбрали элемент: № %d со значением \"%s\".", index, sz_message);
-				MessageBox(hwnd, sz_buffer, "Info", MB_OK | MB_ICONINFORMATION);
 			}
 			else
 			{
 				sprintf(sz_buffer, "Элемент не выбран");
-				MessageBox(hwnd, sz_buffer, "Info", MB_OK | MB_ICONINFORMATION);
 			}
+				MessageBox(hwnd, sz_buffer, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
 		case IDCANCEL: EndDialog(hwnd, 0); break;
