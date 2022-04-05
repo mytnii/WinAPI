@@ -5,6 +5,8 @@
 CHAR sz_login_invitation[] = "Введите логин";
 CHAR sz_password_invitation[] = "Введите пароль";
 
+
+
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM);
 
 INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
@@ -36,30 +38,33 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM)
 		break;
 	case WM_COMMAND:
 	{
+		CONST INT SIZE = 256;
+		CHAR sz_buffer[SIZE] = {};
 		switch (LOWORD(wParam))
 		{
 		case IDC_EDIT_LOGIN:
 		{
-			CONST INT SIZE = 256;
-			CHAR sz_buffer[SIZE] = {};
+			/*CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};*/
+			HWND hEditLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
 			SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			switch (HIWORD(wParam))
 			{
 			case EN_SETFOCUS:
 				if(!strcmp(sz_buffer, sz_login_invitation))
-				SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"");
+				SendMessage(hEditLogin, WM_SETTEXT, 0, (LPARAM)"");
 				break;
 			case EN_KILLFOCUS:
 				if (!strcmp(sz_buffer, ""))
-				SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)sz_login_invitation);
+				SendMessage(hEditLogin, WM_SETTEXT, 0, (LPARAM)sz_login_invitation);
 				break;
 			}
 		}
 		break;
 		case IDC_BUTTON_COPY:
 		{
-			CONST INT SIZE = 256;
-			CHAR sz_buffer[SIZE] = {};
+			/*CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};*/
 			HWND hLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
 			SendMessage(hLogin, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			HWND hPassword = GetDlgItem(hwnd, IDC_EDIT_PASSWORD);
@@ -68,8 +73,8 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM)
 			break;
 		case IDC_BUTTON_SET_TITLE:
 		{
-			CONST INT SIZE = 256;
-			CHAR sz_buffer[SIZE] = {};
+			/*CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};*/
 			SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 			//SendMessage(FindWindow(NULL, "WinAPI -"), WM_SETTEXT, 0, (LPARAM)sz_buffer);
@@ -86,3 +91,4 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMgs, WPARAM wParam, LPARAM lPARAM)
 	}
 	return FALSE;
 }
+
