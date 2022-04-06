@@ -26,6 +26,8 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 	{
+		HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+		SendMessage(hwnd, WM_SETICON, 0, (LPARAM)hIcon);
 		HWND hComboBox = GetDlgItem(hwnd, IDC_COMBO2);
 		for (int i = 0; i < sizeof(str) / sizeof(str[0]); ++i)
 		{
@@ -44,7 +46,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CHAR sz_message[SIZE] = {};
 			HWND hComboBox = GetDlgItem(hwnd, IDC_COMBO2);
 			INT index = SendMessage(hComboBox, CB_GETCURSEL, 0, 0);
-			if (!index)
+			if (index != CB_ERR)
 			{
 				SendMessage(hComboBox, CB_GETLBTEXT, index, (LPARAM)sz_message);
 				sprintf(sz_buffer, "Вы выбрали элемент: № %d со значением \"%s\".", index, sz_message);
