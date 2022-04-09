@@ -1,4 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include<Windows.h>
+#include<stdio.h>
+
+constexpr INT STATIC = 100;
 
 CONST CHAR g_szClassName[] = "My Window Class";
 
@@ -26,14 +31,22 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, in
 		return 0;
 	}
 
+	INT screen_width = GetSystemMetrics(SM_CXSCREEN);
+	INT screen_height = GetSystemMetrics(SM_CYSCREEN);
+	INT window_width = screen_width - screen_width / 4;
+	INT window_height = screen_height - screen_height / 4;
+	INT window_start_x = screen_width / 8;
+	INT window_start_y = screen_height / 8;
 	HWND hwnd = CreateWindowEx
 	(
 		NULL,
 		g_szClassName,
 		"Main Window",
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		window_start_x, window_start_y,
+		window_width, window_height,
+		/*CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT,*/
 		NULL,
 		NULL,
 		hInstance,
@@ -60,8 +73,39 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-	case WM_CREATE: break;
+	case WM_CREATE:
+	{
+		RECT rect;
+		GetClientRect(hwnd, &rect);
+		CreateWindowEx
+		(
+			NULL,
+			"STATIC",
+			"",
+			WS_CHILD | WS_VISIBLE,
+			rect.top, rect.left,
+			400, 15,
+			hwnd,
+			(HMENU)STATIC,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		
+	}
+		break;
 	case WM_COMMAND: break;
+	case WM_SIZE:
+	case WM_MOVE:
+	{
+		CONST INT SIZE = 256;
+		CHAR buffer[SIZE]{};
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		sprintf(buffer, "%s - position: X %d Y %d, size: %dx%d", "Main Window", rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+		//SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)buffer);
+		SendMessage(GetDlgItem(hwnd, STATIC), WM_SETTEXT, 0, (LPARAM)buffer);
+	}
+		break;
 	case WM_CLOSE: 
 		if (MessageBox(hwnd, "Вы действительно хотите закрыть окно?", "Шо, внатуре?", MB_YESNO | MB_ICONQUESTION) == IDYES)
 		{
