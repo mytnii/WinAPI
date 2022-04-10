@@ -1,9 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+#include<winapifamily.h>
 #include<Windows.h>
 #include<stdio.h>
+#include"resource.h"
 
-constexpr INT STATIC = 100;
+constexpr INT STATIC = 104;
 
 CONST CHAR g_szClassName[] = "My Window Class";
 
@@ -18,9 +20,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, in
 	wc.cbWndExtra = 0;
 	wc.lpfnWndProc = WndProc;
 	wc.style = 0;
-	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
-	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
-	wc.hCursor = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_ARROW));
+	//wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	//wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON2));
+	wc.hIconSm = (HICON)LoadImage(hInstance, "bonfire.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	wc.hIcon = (HICON)LoadImage(hInstance, "eclips.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	wc.hCursor = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_CURSOR1));
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 	wc.hInstance = hInstance;
 	wc.lpszMenuName = NULL;
@@ -84,7 +88,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			"",
 			WS_CHILD | WS_VISIBLE,
 			rect.top, rect.left,
-			400, 15,
+			1500, 150,
 			hwnd,
 			(HMENU)STATIC,
 			GetModuleHandle(NULL),
@@ -101,8 +105,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		CHAR buffer[SIZE]{};
 		RECT rect;
 		GetWindowRect(hwnd, &rect);
-		sprintf(buffer, "%s - position: X %d Y %d, size: %dx%d", "Main Window", rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-		//SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)buffer);
+		sprintf(buffer, "%s  position: X %i Y %i, size: %ix%i", "Main Window", rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)buffer);
 		SendMessage(GetDlgItem(hwnd, STATIC), WM_SETTEXT, 0, (LPARAM)buffer);
 	}
 		break;
